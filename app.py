@@ -1,14 +1,14 @@
 from flask import Flask, request
-from twilio import twiml
+from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
 
-@app.route('/inb', methods=['POST'])
+@app.route('/inb', methods=['GET', 'POST'])
 def reply():
     number = request.form['From']
     message_body = request.form['Body']
 
-    resp = twiml.Response()
+    resp = MessagingResponse()
     resp.message(message_body)
     return str(resp)
 
