@@ -1,13 +1,16 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
 from reddit import Message as RMessage
+import time
+import datetime
 
 app = Flask(__name__)
 
 def startscheduling():
-    scheduler = BlockingScheduler()
-    scheduler.add_job(RMessage, 'interval', minutes = 3)
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(RMessage, trigger = CronTrigger(minute='*/01'))
     scheduler.start()
 
 @app.route('/inb', methods=['GET', 'POST'])
