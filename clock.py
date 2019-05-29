@@ -6,7 +6,7 @@ import datetime
 
 sched = BlockingScheduler()
 
-sched.add_job(RMessage, 'interval', hours = 1)
+sched.add_job(RMessage, 'interval', minutes = 5)
 
 
 
