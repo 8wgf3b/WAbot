@@ -24,4 +24,4 @@ def reply():
 
 if __name__ == '__main__':
     startscheduling()
-    app.run(use_reloader=False)
+    app.run()

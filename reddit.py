@@ -8,5 +8,3 @@ def Message():
     from_whatsapp_number = 'whatsapp:' + os.environ['BOTNUMBER']
     to_whatsapp_number = 'whatsapp:' + os.environ['ADMINNUMBER']
     client.messages.create(from_ = from_whatsapp_number, to = to_whatsapp_number, body = 'Hello from reddit')
-
-Message()
