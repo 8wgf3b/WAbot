@@ -11,3 +11,5 @@ sched.add_job(RMessage, 'interval', minutes = 5)
 
 
 sched.start()
+while __name__ == '__main__':
+  pass
