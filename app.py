@@ -1,12 +1,12 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 from reddit import Message as RMessage
 
 app = Flask(__name__)
 
 def startscheduling():
-    scheduler = BackgroundScheduler()
+    scheduler = BlockingScheduler()
     scheduler.add_job(RMessage, 'interval', minutes = 3)
     scheduler.start()
 
