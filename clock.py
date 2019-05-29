@@ -1,14 +1,13 @@
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 from reddit import Message as RMessage
 import time
 import datetime
 
-def startscheduling():
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(RMessage, trigger = CronTrigger(minute='*/01'))
-    scheduler.start()
+sched = BlockingScheduler()
+
+sched.add_job(RMessage, 'interval', minutes = 1)
 
 
-if __name__ == '__main__':
-    startscheduling()
+
+sched.start()
