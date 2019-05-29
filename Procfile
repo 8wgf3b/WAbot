@@ -1,2 +1,2 @@
-#web: uwsgi uwsgi.ini
-web: python app.py
+web: uwsgi uwsgi.ini
+clock: python clock.py
