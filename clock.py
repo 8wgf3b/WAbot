@@ -10,7 +10,7 @@ logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 
 sched = BlockingScheduler()
 
-sched.add_job(RMessage, 'interval', hours = 1)
+sched.add_job(RMessage, 'cron', hour='1-19', minute='50')
 
 
 
