@@ -14,7 +14,7 @@ def topretriever(Sub, time, limit, Clockcheck):
         subreddit = reddit.subreddit(Sub)
         message = Sub + '\n\n'
         for submission in subreddit.top(time, limit= limit):
-            message += submission.permalink + '\n\n'
+            message += submission.title + '\n' + submission.shortlink + '\n\n'
         if Clockcheck == True:
             account_sid = os.environ['ACC_SID']
             auth_token = os.environ['AUTH_TOKEN']
