@@ -10,7 +10,12 @@ app = Flask(__name__)
 def reply():
     number = request.form['From']
     message_body = request.form['Body']
-    response = message_body
+#    response = message_body
+    message_body = message_body.split()
+    if message_body[0].lower() == '!echo':
+        response = ' '.join(message_body[1:])
+    else:
+        response = '**Bruh Moment**'
     resp = MessagingResponse()
     resp.message(response)
     return str(resp)
