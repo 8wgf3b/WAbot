@@ -2,7 +2,7 @@ from twilio.rest import Client
 import praw
 import os
 
-def topretriever(Sub, time, limit, Clockcheck):
+def topretriever(Sub= 'all', time= 'day', limit= 5, Clockcheck = False):
     if limit > 5:
         limit = 5
     try:

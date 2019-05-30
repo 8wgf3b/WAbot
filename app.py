@@ -17,7 +17,7 @@ def reply():
     elif message_body[0].lower() == '!rtop':
         response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
     else:
-        response = '**Bruh Moment**'
+        response = '*Bruh Moment*'
     resp = MessagingResponse()
     resp.message(response)
     return str(resp)
