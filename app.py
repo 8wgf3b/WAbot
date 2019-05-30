@@ -1,6 +1,6 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
-
+from reddit import topretriever
 
 app = Flask(__name__)
 
@@ -14,6 +14,8 @@ def reply():
     message_body = message_body.split()
     if message_body[0].lower() == '!echo':
         response = ' '.join(message_body[1:])
+    elif message_body[0].lower() == '!rtop':
+        response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
     else:
         response = '**Bruh Moment**'
     resp = MessagingResponse()
