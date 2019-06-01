@@ -2,9 +2,9 @@ from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever
 from media import echoimage
+import os
+
 app = Flask(__name__)
-
-
 
 @app.route('/inb', methods=['GET', 'POST'])
 def reply():
