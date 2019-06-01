@@ -23,13 +23,9 @@ def reply():
         for idx in range(num_media):
             media_url = request.values.get(f'MediaUrl{idx}')
             output_urls.append(echoimage(media_url))
-        account_sid = os.environ['ACC_SID']
-        auth_token = os.environ['AUTH_TOKEN']
-        client = Client(account_sid, auth_token)
-        from_whatsapp_number = 'whatsapp:' + os.environ['BOTNUMBER']
-        to_whatsapp_number = 'whatsapp:' + number
-        message =  client.messages.create(media_url= output_urls, from_ = from_whatsapp_number, to = to_whatsapp_number, body = 'ECHOED IMG')
-        return str(message.sid)
+        resp = MessagingResponse()
+        resp.message(body = 'Echoed image').media(output_urls)
+        return str(resp)
     else:
         response = '*Bruh Moment*'
     resp = MessagingResponse()
