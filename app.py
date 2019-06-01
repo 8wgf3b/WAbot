@@ -19,7 +19,7 @@ def reply():
     elif message_body[0].lower() == '!rtop':
         response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
     elif message_body[0].lower() == '!ecim' and num_media > 0:
-        media_url = request.values.get(f'MediaUrl{idx}')
+        media_url = request.values.get(f'MediaUrl{0}')
         resp = MessagingResponse()
         resp.message(body = 'Echoed image').media(echoimage(media_url))
         return str(resp)
