@@ -2,6 +2,7 @@ from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever
 from media import echoimage
+from twilio.rest import Client
 import os
 
 app = Flask(__name__)
