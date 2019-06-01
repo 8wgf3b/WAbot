@@ -29,6 +29,7 @@ def reply():
         from_whatsapp_number = 'whatsapp:' + os.environ['BOTNUMBER']
         to_whatsapp_number = 'whatsapp:' + number
         client.messages.create(media_url= output_urls, from_ = from_whatsapp_number, to = to_whatsapp_number, body = 'ECHOED IMG')
+        return
     else:
         response = '*Bruh Moment*'
     resp = MessagingResponse()
