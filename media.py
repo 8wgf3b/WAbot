@@ -5,7 +5,7 @@ import os
 def echoimage(URL):
     im = pyimgur.Imgur(os.environ['IMGUR_CID'])
     #url can be sent directly but i wanted to test the temp directory's usage
-    response = requests.get(url)
+    response = requests.get(URL)
     if response.status_code == 200:
         with open("temp/echoim.jpg", 'wb') as f:
             f.write(response.content)
