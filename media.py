@@ -1,5 +1,6 @@
 import pyimgur
 import requests
+import os
 
 def echoimage(URL):
     im = pyimgur.Imgur(os.environ['IMGUR_CID'])
