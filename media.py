@@ -9,5 +9,5 @@ def echoimage(URL):
     if response.status_code == 200:
         with open("temp/echoim.jpg", 'wb') as f:
             f.write(response.content)
-    uploaded_image = im.upload_image(url="temp/echoim.jpg", title="Uploaded with PyImgur")
+    uploaded_image = im.upload_image("temp/echoim.jpg", title="twilwhatbot")
     return uploaded_image.link
