@@ -19,12 +19,9 @@ def reply():
     elif message_body[0].lower() == '!rtop':
         response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
     elif message_body[0].lower() == '!ecim' and num_media > 0:
-        output_urls = []
-        for idx in range(num_media):
-            media_url = request.values.get(f'MediaUrl{idx}')
-            output_urls.append(echoimage(media_url))
+        media_url = request.values.get(f'MediaUrl{idx}')
         resp = MessagingResponse()
-        resp.message(body = 'Echoed image').media(output_urls)
+        resp.message(body = 'Echoed image').media(echoimage(media_url))
         return str(resp)
     else:
         response = '*Bruh Moment*'
