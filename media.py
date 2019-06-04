@@ -1,6 +1,6 @@
 import pyimgur
 import requests
-import os
+import os, shutil
 
 def echoimage(URL):
     im = pyimgur.Imgur(os.environ['IMGUR_CID'])
@@ -11,3 +11,14 @@ def echoimage(URL):
             f.write(response.content)
     uploaded_image = im.upload_image("temp/echoim.jpg", title="twilwhatbot")
     return uploaded_image.link
+
+def clean(path = 'temp/'):
+    for file in os.listdir(path):
+        if file == '.gitkeep':
+            continue
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+            os.unlink(file_path)
+        except Exception as e:
+            print(e)

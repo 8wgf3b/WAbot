@@ -1,7 +1,7 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever
-from media import echoimage
+from media import echoimage, clean
 from twilio.rest import Client
 import os
 
@@ -22,6 +22,7 @@ def reply():
         media_url = request.values.get(f'MediaUrl{0}')
         resp = MessagingResponse()
         resp.message(body = 'Echoed image').media(echoimage(media_url))
+        clean()
         return str(resp)
     else:
         response = '*Bruh Moment*'
