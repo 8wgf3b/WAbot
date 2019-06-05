@@ -36,6 +36,6 @@ def sudoku(URL):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame = cv2.GaussianBlur(frame,(7, 7), 0)
         frame = cv2.adaptiveThreshold(frame, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
-        cv.imwrite('temp/solvedsudoku.jpg',frame)
+        cv2.imwrite('temp/solvedsudoku.jpg',frame)
         uploaded_image = im.upload_image("temp/solvedsudoku.jpg", title="twilwhatbot")
         return uploaded_image.link
