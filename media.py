@@ -18,7 +18,7 @@ def clean(path = 'temp/'):
     for file in os.listdir(path):
         if file == '.gitkeep':
             continue
-        file_path = os.path.join(folder, the_file)
+        file_path = os.path.join(path, the_file)
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
