@@ -11,4 +11,6 @@ update-checker==0.16
 websocket-client==0.56.0
 pyimgur==0.6.0
 numpy==1.16.2
-opencv-contrib-python==4.1.0.25
+opencv-python-headless==4.1.0.25
+tensorflow==1.13.1
+Keras==2.2.4
