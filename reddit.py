@@ -3,8 +3,6 @@ import praw
 import os
 
 def topretriever(Sub= 'all', time= 'day', limit= 5, Clockcheck = False):
-    if limit > 5:
-        limit = 5
     try:
         reddit = praw.Reddit(client_id= os.environ['CLIENT_ID'],
                          client_secret= os.environ['CLIENT_SECRET'],
