@@ -16,7 +16,7 @@ sched.add_job(lambda: topretriever('machinelearning', 'day', 10, True), 'cron', 
 sched.add_job(lambda: topretriever('statistics', 'day', 10, True), 'cron', hour='5', minute='12')
 sched.add_job(lambda: topretriever('raspberry_pi', 'day', 10, True), 'cron', hour='5', minute='6')
 #sched.add_job(lambda: topretriever('raspberry_pi', 'day', 10, True), 'cron', hour='5', minute='6')
-sched.add_job(lambda: topretriever('python', 'day', 10, True), 'cron', hour='5', minute='6')
+sched.add_job(lambda: topretriever('python', 'day', 10, True), 'cron', hour='5', minute='20')
 
 
 
