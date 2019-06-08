@@ -243,7 +243,7 @@ def croppedsquaredigits(path):
 	cropped = crop_and_warp(original, corners)
 	squares = infer_grid(cropped)
 	digits = get_digits(cropped, squares, 28)
-	return cropped, square, digits
+	return cropped, squares, digits
 
 def numonim(orig, squares, digits):
     model = load_model('models/poor.h5')
