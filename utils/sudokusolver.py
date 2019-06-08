@@ -246,7 +246,7 @@ def croppedsquaredigits(path):
 	return cropped, squares, digits
 
 def numonim(orig, squares, digits):
-    model = load_model('./models/poor.h5')
+    model = load_model('utils/models/poor.h5')
     frame = orig.copy()
     alt = np.array(digits)
     alt = alt.reshape(alt.shape[0], 28, 28, 1)
