@@ -24,5 +24,21 @@ def isolate(img):
     frame = cv2.warpPerspective(img, m,(int(side), int(side)))
     return frame
 
-def plainify(img):
+def getsquares(img):
+    squares =[]
+    side = img.shape[:1]
+	side = side[0] / 9
+	for i in range(9):
+		for j in range(9):
+			p1 = (i * side, j * side)  # Top left corner of a bounding box
+			p2 = ((i + 1) * side, (j + 1) * side)  # Bottom right corner of bounding box
+			squares.append((p1, p2))
+    return squares
+
+def getdigits(img, squares, size=128):
+    '''frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    frame = cv2.GaussianBlur(frame,(5, 5), 0)
+    kernel = np.ones((3, 3), np.uint8)
+    frame = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel)
+    frame = cv2.adaptiveThreshold(frame, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)'''
     pass
