@@ -8,8 +8,8 @@ class Cricbuzz():
 
 	def crawl_url(self,url):
 		try:
-			r = requests.get(url, headers={'content-type':'application/json'}).json()
-			return r
+			r = requests.get(url)
+			return json.loads(r.text.lstrip().rstrip())
 		except Exception:
 			raise
 
