@@ -3,7 +3,7 @@ import requests
 import os, shutil
 import cv2
 import numpy as np
-from utils.preprocess import isolate
+from utils.sudokusolver import croppedsquaredigits, numonim
 
 def echoimage(URL):
     im = pyimgur.Imgur(os.environ['IMGUR_CID'])
@@ -32,8 +32,8 @@ def sudoku(URL):
     if response.status_code == 200:
         with open("temp/sudoku.jpg", 'wb') as f:
             f.write(response.content)
-    orig = cv2.imread('temp/sudoku.jpg')
-    frame = isolate(orig)
+    cropped, squares, digits = croppedsquaredigits('temp/sudoku.jpg')
+    frame = numonim(cropped, squares, digits)
     cv2.imwrite('temp/solvedsudoku.jpg',frame)
     uploaded_image = im.upload_image("temp/solvedsudoku.jpg", title="twilwhatbot")
     return uploaded_image.link
