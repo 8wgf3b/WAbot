@@ -37,7 +37,7 @@ def reply():
         return str(resp)
 
     elif message_body[0].lower() == '!mtch':
-        response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
+        response = getmatches()
 
 
     else:
