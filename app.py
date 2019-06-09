@@ -3,6 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
+from random import random
 import os
 
 app = Flask(__name__)
@@ -35,7 +36,14 @@ def reply():
         return str(resp)
 
     else:
-        response = '*Bruh Moment*'
+        mess = ''
+        lst = [str.upper, str.lower]
+        for x in message_body:
+            mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
+        media_url = 'https://i.imgur.com/nOVxxwU.jpg'
+        response = '*' + mess + '*'
+        resp = MessagingResponse()
+        resp.message(body = response).media(echoimage(media_url))
 
     resp = MessagingResponse()
     resp.message(response)
