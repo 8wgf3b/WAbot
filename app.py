@@ -47,7 +47,7 @@ def reply():
         lst = [str.upper, str.lower]
         for x in message_body:
             mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
-        media_url = 'i.imgur.com/nOVxxwU.jpg'
+        media_url = 'http://i.imgur.com/nOVxxwU.jpg'
         response = '*' + mess[:-1] + '*'
         resp = MessagingResponse()
         resp.message(body = response).media(echoimage(media_url))
