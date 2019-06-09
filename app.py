@@ -4,6 +4,7 @@ from reddit import topretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
 from random import random
+from sports import getmatches
 import os
 
 app = Flask(__name__)
@@ -35,13 +36,17 @@ def reply():
         clean()
         return str(resp)
 
+    elif message_body[0].lower() == '!mtch':
+        response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
+
+
     else:
         mess = ''
         lst = [str.upper, str.lower]
         for x in message_body:
             mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
-        media_url = 'https://i.imgur.com/nOVxxwU.jpg'
-        response = '*' + mess + '*'
+        media_url = 'i.imgur.com/nOVxxwU.jpg'
+        response = '*' + mess[:-1] + '*'
         resp = MessagingResponse()
         resp.message(body = response).media(echoimage(media_url))
 
