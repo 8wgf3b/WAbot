@@ -1,4 +1,4 @@
-from pycricbuzz import Cricbuzz
+from utils.cricbuzz import Cricbuzz
 
 def getmatches():
     c = Cricbuzz()
