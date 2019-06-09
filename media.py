@@ -15,7 +15,7 @@ def echoimage(URL):
     uploaded_image = im.upload_image("temp/echoim.jpg", title="twilwhatbot")
     return uploaded_image.link
 
-def clean(path = 'temp/'):
+def clean(path = 'temp/', log = False):
     for file in os.listdir(path):
         if file == '.gitkeep':
             continue
@@ -25,6 +25,8 @@ def clean(path = 'temp/'):
                 os.unlink(file_path)
         except Exception as e:
             print(e)
+    if log == True:
+        return '\n'.join(os.listdir(path))
 
 def sudoku(URL):
     im = pyimgur.Imgur(os.environ['IMGUR_CID'])
@@ -37,3 +39,6 @@ def sudoku(URL):
     cv2.imwrite('temp/solvedsudoku.jpg',frame)
     uploaded_image = im.upload_image("temp/solvedsudoku.jpg", title="twilwhatbot")
     return uploaded_image.link
+
+if __name__ == '__main__':
+    print(clean(log =True))

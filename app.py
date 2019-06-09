@@ -39,6 +39,8 @@ def reply():
     elif message_body[0].lower() == '!mtch':
         response = getmatches()
 
+    elif message_body[0].lower() == '!clen':
+            response = clean(path = 'temp/', log = True)
 
     else:
         mess = ''
