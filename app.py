@@ -4,7 +4,7 @@ from reddit import topretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
 from random import random
-from sports import getmatches
+from sports import getmatches, rawreturn
 import os
 
 app = Flask(__name__)
@@ -37,7 +37,7 @@ def reply():
         return str(resp)
 
     elif message_body[0].lower() == '!mtch':
-        response = getmatches()
+        response = rawreturn()[:100]
 
     elif message_body[0].lower() == '!clen':
             response = clean(path = 'temp/', log = True)

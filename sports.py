@@ -1,4 +1,5 @@
 from utils.cricbuzz import Cricbuzz
+import requests
 
 def getmatches():
     c = Cricbuzz()
@@ -11,6 +12,9 @@ def getmatches():
 def livescores(mid=None):
     c = Cricbuzz()
     matches = c.matches()
+def rawreturn():
+    url = "http://mapps.cricbuzz.com/cbzios/match/livematches"
+    return requests.get(url).text
 
 if __name__ == '__main__':
-    print(getmatches())
+    print(rawreturn()[:100])
