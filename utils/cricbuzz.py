@@ -8,7 +8,7 @@ class Cricbuzz():
 
 	def crawl_url(self,url):
 		try:
-			r = requests.get(url).json()
+			r = requests.get(url, headers={'content-type':'application/json'}).json()
 			return r
 		except Exception:
 			raise
@@ -226,4 +226,3 @@ class Cricbuzz():
 				d.append({"id":c.get("id"),"f_name":c.get("f_name"),"name":c.get("name"),"bat_style":c.get("bat_style"),"bowl_style":c.get("bowl_style")})
 		data['players'] = d
 		return data
-        
