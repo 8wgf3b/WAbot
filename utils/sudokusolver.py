@@ -1,13 +1,13 @@
 import numpy as np
 import cv2
 import operator
-from keras.models import Sequential
+'''from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
-from keras.models import load_model
+from keras.models import load_model'''
 import os
-import keras
+#import keras
 
 #Unable to isolate digits from cropped pic so copied he code from https://gist.github.com/mineshpatel1/209038c64c19d5e78e0a878320797631#file-sudoku_cv-py
 #thank you minesh patel

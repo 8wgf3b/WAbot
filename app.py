@@ -3,6 +3,8 @@ from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
+from random import random
+from sports import getmatches, rawreturn
 import os
 
 app = Flask(__name__)
@@ -34,8 +36,21 @@ def reply():
         clean()
         return str(resp)
 
+    elif message_body[0].lower() == '!mtch':
+        response = rawreturn()[:100]
+
+    elif message_body[0].lower() == '!clen':
+            response = clean(path = 'temp/', log = True)
+
     else:
-        response = '*Bruh Moment*'
+        mess = ''
+        lst = [str.upper, str.lower]
+        for x in message_body:
+            mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
+        media_url = 'http://i.imgur.com/nOVxxwU.jpg'
+        response = '*' + mess[:-1] + '*'
+        resp = MessagingResponse()
+        resp.message(body = response).media(echoimage(media_url))
 
     resp = MessagingResponse()
     resp.message(response)
