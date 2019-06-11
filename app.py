@@ -59,13 +59,14 @@ def reply():
     elif message_body[0].lower() == '!cpst':
         resp = MessagingResponse()
         _, media_url, mess = randomimageretriever(Sub='copypasta')
+        mess = mess.encode('ascii', 'ignore').decode('ascii')
         resp.message(body = mess)
         return str(resp)
 
     elif message_body[0].lower() == '!joke':
         resp = MessagingResponse()
         title, _, mess = randomimageretriever(Sub='jokes')
-        mess = title + '\n' + mess
+        mess = title + '\n\n\n' + mess
         resp.message(body = mess)
         return str(resp)
 
