@@ -45,7 +45,7 @@ def reply():
     elif message_body[0].lower() == '!dank':
         resp = MessagingResponse()
         mess, media_url, _ = randomimageretriever(Sub='dankmemes')
-        resp.message(body = mess).media(echoimage(media_url))
+        resp.message(body = mess).media(media_url)
         clean()
         return str(resp)
 
