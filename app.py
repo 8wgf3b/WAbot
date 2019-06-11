@@ -52,15 +52,14 @@ def reply():
     elif message_body[0].lower() == '!cohv':
         resp = MessagingResponse()
         mess, media_url, _ = randomimageretriever(Sub='comedyheaven')
-        resp.message(body = mess).media(echoimage(media_url))
+        resp.message(body = mess).media(media_url)
         clean()
         return str(resp)
 
     elif message_body[0].lower() == '!cpst':
         resp = MessagingResponse()
         _, media_url, mess = randomimageretriever(Sub='copypasta')
-        resp.message(body = mess).media(echoimage(media_url))
-        clean()
+        resp.message(body = mess)
         return str(resp)
 
     else:
