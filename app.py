@@ -64,7 +64,7 @@ def reply():
 
     elif message_body[0].lower() == '!joke':
         resp = MessagingResponse()
-        title, _, mess = randomimageretriever(Sub='copypasta')
+        title, _, mess = randomimageretriever(Sub='jokes')
         mess = title + '\n' + mess
         resp.message(body = mess)
         return str(resp)
