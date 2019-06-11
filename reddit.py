@@ -24,3 +24,17 @@ def topretriever(Sub= 'all', time= 'day', limit= 5, Clockcheck = False):
         return message
     except:
         pass
+
+
+def randomimageretriever(Sub='all'):
+    try:
+        reddit = praw.Reddit(client_id= os.environ['CLIENT_ID'],
+                         client_secret= os.environ['CLIENT_SECRET'],
+                         username= os.environ['USERNAME'],
+                         password= os.environ['PASSWORD'],
+                         user_agent= os.environ['USER_AGENT'])
+        subreddit = reddit.subreddit(Sub)
+        submission = subreddit.random()
+        return submission.title, submission.url
+    except:
+            pass

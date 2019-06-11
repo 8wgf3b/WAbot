@@ -1,6 +1,6 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
-from reddit import topretriever
+from reddit import topretriever, randomimageretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
 from random import random
@@ -40,7 +40,14 @@ def reply():
         response = rawreturn()[:100]
 
     elif message_body[0].lower() == '!clen':
-            response = clean(path = 'temp/', log = True)
+        response = clean(path = 'temp/', log = True)
+
+    elif message_body[0].lower() == '!dank':
+        resp = MessagingResponse()
+        mess, media_url = randomimageretriever(Sub='dankmemes')
+        resp.message(body = mess).media(echoimage(media_url))
+        clean()
+        return str(resp)
 
     else:
         mess = ''
