@@ -35,6 +35,6 @@ def randomimageretriever(Sub='all'):
                          user_agent= os.environ['USER_AGENT'])
         subreddit = reddit.subreddit(Sub)
         submission = subreddit.random()
-        return submission.title, submission.url
+        return submission.title, submission.url, submission.selftext
     except:
             pass
