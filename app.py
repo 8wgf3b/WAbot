@@ -14,7 +14,7 @@ app = Flask(__name__)
 website = os.environ['WEBSITE']
 token = os.environ['TEL_ACC_TOK']
 
-bot = telebot.TeleBot(API_TOKEN)
+bot = telebot.TeleBot(token)
 
 
 
