@@ -1,4 +1,5 @@
 from flask import Flask, request, Response
+import requests
 import logging
 from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever, randomimageretriever
