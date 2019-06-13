@@ -16,15 +16,19 @@ token = os.environ['TEL_ACC_TOK']
 
 bot = telebot.TeleBot(token)
 
-
+@app.route('/')
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=website+token)
+    return '!', 200
 
 @app.route('/'+token, methods=['POST'])
 def webhook():
     if request.headers.get('content-type') == 'application/json':
-        json_string = request.get_data().decode('utf-8')
+        json_string = request.stream.read().decode('utf-8')
         update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
-        return ''
+        return '!', 200
     else:
         flask.abort(403)
 
@@ -116,7 +120,4 @@ def reply():
     return str(resp)
 
 if __name__ == '__main__':
-#    startscheduling()
-    bot.remove_webhook()
-    bot.set_webhook(website+token)
-    app.run()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
