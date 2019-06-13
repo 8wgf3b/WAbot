@@ -21,7 +21,7 @@ def telegram():
     if request.method == 'POST':
         js = request.get_json()
         chat_id = js['message']['chat']['id']
-        msg = message['message']['text']
+        msg = js['message']['text']
         response = 'Working my dude'
 #        write_json(msg, 'tele')
         payload = {'chat_id': chat_id, 'text': text}
