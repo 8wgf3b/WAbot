@@ -1,6 +1,6 @@
 from flask import Flask, request
 import flask
-
+import logging
 from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever, randomimageretriever
 from media import echoimage, clean, sudoku
@@ -10,11 +10,16 @@ from sports import getmatches, rawreturn
 import os
 import telebot
 
+
+
 app = Flask(__name__)
 website = os.environ['WEBSITE']
 token = os.environ['TEL_ACC_TOK']
 
 bot = telebot.TeleBot(token)
+
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG) # Outputs debug messages to console
 
 @app.route('/')
 def webhook():
@@ -23,14 +28,9 @@ def webhook():
     return '!', 200
 
 @app.route('/'+token, methods=['POST'])
-def getmessage():
-    if request.headers.get('content-type') == 'application/json':
-        json_string = request.stream.read().decode('utf-8')
-        update = telebot.types.Update.de_json(json_string)
-        bot.process_new_updates([update])
-        return '!', 200
-    else:
-        flask.abort(403)
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
