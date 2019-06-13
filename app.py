@@ -27,7 +27,7 @@ def webhook():
     bot.set_webhook(url=website+token)
     return '!', 200
 
-@app.route('/'+token, methods=['POST'])
+@app.route('/'+token, methods=['GET','POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
