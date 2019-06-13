@@ -1,7 +1,7 @@
 import pyimgur
 import requests
 import os, shutil
-import cv2
+#import cv2
 import numpy as np
 from utils.sudokusolver import croppedsquaredigits, numonim
 

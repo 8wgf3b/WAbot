@@ -1,5 +1,5 @@
 import numpy as np
-import cv2
+#import cv2
 import operator
 '''from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
