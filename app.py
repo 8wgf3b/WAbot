@@ -20,55 +20,60 @@ token = os.environ['TEL_ACC_TOK']
 def telegram():
     telweb = 'https://api.telegram.org/bot'
     if request.method == 'POST':
-        js = request.get_json()
-        chat_id = js['message']['chat']['id']
-        message_body = js['message']['text']
-        message_body = message_body.split()
-        if '@fbpa_bot' in message_body:
-            message_body.remove('@fbpa_bot')
-        if message_body[0].lower() == '/echo':
-            response = ' '.join(message_body[1:])
-            payload = {'chat_id': chat_id, 'text': response}
+        try:
+            js = request.get_json()
+            chat_id = js['message']['chat']['id']
+            message_body = js['message']['text']
+            message_body = message_body.split()
+            if '@fbpa_bot' in message_body:
+                message_body.remove('@fbpa_bot')
+            if message_body[0].lower() == '/echo':
+                response = ' '.join(message_body[1:])
+                payload = {'chat_id': chat_id, 'text': response}
 
-        elif message_body[0].lower() == '/rtop':
-            response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
-            payload = {'chat_id': chat_id, 'text': response}
+            elif message_body[0].lower() == '/rtop':
+                response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
+                payload = {'chat_id': chat_id, 'text': response}
 
-        elif message_body[0].lower() == '/dank':
-            mess, media_url, _ = randomimageretriever(Sub='dankmemes')
-            payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
-            r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+            elif message_body[0].lower() == '/dank':
+                mess, media_url, _ = randomimageretriever(Sub='dankmemes')
+                payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
+                r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+                return Response('ok', status=200)
+
+            elif message_body[0].lower() == '/cohv':
+                mess, media_url, _ = randomimageretriever(Sub='comedyheaven')
+                payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
+                r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+                return Response('ok', status=200)
+
+            elif message_body[0].lower() == '/cpst':
+                title, media_url, mess = randomimageretriever(Sub='copypasta')
+                payload = {'chat_id': chat_id, 'text': mess}
+
+            elif message_body[0].lower() == '/joke':
+                title, media_url, mess = randomimageretriever(Sub='jokes')
+                mess = title + '\n\n' + mess
+                payload = {'chat_id': chat_id, 'text': mess}
+
+            else:
+                mess = ''
+                lst = [str.upper, str.lower]
+                for x in message_body:
+                    mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
+                media_url = 'http://i.imgur.com/nOVxxwU.jpg'
+                response = mess[:-1]
+                payload = {'chat_id': chat_id, 'caption': response, 'photo':media_url}
+                r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+                return Response('ok', status=200)
+
+
+            r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
             return Response('ok', status=200)
 
-        elif message_body[0].lower() == '/cohv':
-            mess, media_url, _ = randomimageretriever(Sub='comedyheaven')
-            payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
-            r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+        except Exception as e:
+            print(e)
             return Response('ok', status=200)
-
-        elif message_body[0].lower() == '/cpst':
-            title, media_url, mess = randomimageretriever(Sub='copypasta')
-            payload = {'chat_id': chat_id, 'text': mess}
-
-        elif message_body[0].lower() == '/joke':
-            title, media_url, mess = randomimageretriever(Sub='jokes')
-            mess = title + '\n\n' + mess
-            payload = {'chat_id': chat_id, 'text': mess}
-
-        else:
-            mess = ''
-            lst = [str.upper, str.lower]
-            for x in message_body:
-                mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
-            media_url = 'http://i.imgur.com/nOVxxwU.jpg'
-            response = mess[:-1]
-            payload = {'chat_id': chat_id, 'caption': response, 'photo':media_url}
-            r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
-            return Response('ok', status=200)
-
-
-        r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
-        return Response('ok', status=200)
     else:
         return 'hmmm'
 
