@@ -1,5 +1,4 @@
-from flask import Flask, request
-import flask
+from flask import Flask, request, Response
 import logging
 from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever, randomimageretriever
@@ -8,7 +7,7 @@ from twilio.rest import Client
 from random import random
 from sports import getmatches, rawreturn
 import os
-import telebot
+#import telebot
 
 
 
@@ -16,30 +15,20 @@ app = Flask(__name__)
 website = os.environ['WEBSITE']
 token = os.environ['TEL_ACC_TOK']
 
-bot = telebot.TeleBot(token)
-
-logger = telebot.logger
-telebot.logger.setLevel(logging.DEBUG) # Outputs debug messages to console
-
-@app.route('/')
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=website+token)
-    return '!', 200
-
-@app.route('/'+token, methods=['GET','POST'])
-def getMessage():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    return "!", 200
-
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
-
-
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
-    bot.reply_to(message, message.text)
+@app.route('/'+token, methods=['POST'])
+def telegram():
+    telweb = 'https://api.telegram.org/bot'
+    if request.method == 'POST':
+        js = request.get_json()
+        chat_id = js['message']['chat']['id']
+        msg = message['message']['text']
+        response = 'Working my dude'
+#        write_json(msg, 'tele')
+        payload = {'chat_id': chat_id, 'text': text}
+        r = requests.post(telweb+'/'+token+'/'+'sendMessage', json=payload)
+        return Response('ok', status=200)
+    else:
+        return 'hmmm'
 
 
 @app.route('/inb', methods=['GET', 'POST'])

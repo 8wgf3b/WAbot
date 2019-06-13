@@ -15,4 +15,4 @@ numpy==1.16.2
 #tensorflow==1.13.1
 #Keras==2.2.4
 #pycricbuzz==2.4
-pyTelegramBotAPI==3.6.6
+#pyTelegramBotAPI==3.6.6
