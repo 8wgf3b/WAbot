@@ -24,8 +24,8 @@ def telegram():
         msg = js['message']['text']
         response = 'Working my dude'
 #        write_json(msg, 'tele')
-        payload = {'chat_id': chat_id, 'text': text}
-        r = requests.post(telweb+'/'+token+'/'+'sendMessage', json=payload)
+        payload = {'chat_id': chat_id, 'text': response}
+        r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
         return Response('ok', status=200)
     else:
         return 'hmmm'
