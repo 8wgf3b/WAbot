@@ -22,10 +22,28 @@ def telegram():
     if request.method == 'POST':
         js = request.get_json()
         chat_id = js['message']['chat']['id']
-        msg = js['message']['text']
-        response = 'Working my dude'
-#        write_json(msg, 'tele')
-        payload = {'chat_id': chat_id, 'text': response}
+        message_body = js['message']['text']
+        message_body = message_body.split()
+        if message_body[0].lower() == '/echo':
+            response = ' '.join(message_body[1:])
+            payload = {'chat_id': chat_id, 'text': response}
+
+        elif message_body[0].lower() == '/rtop':
+            response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
+            payload = {'chat_id': chat_id, 'text': response}
+
+        else:
+            mess = ''
+            lst = [str.upper, str.lower]
+            for x in message_body:
+                mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
+            media_url = 'http://i.imgur.com/nOVxxwU.jpg'
+            response = '*' + mess[:-1] + '*'
+            payload = {'chat_id': chat_id, 'caption': response, 'photo':media_url}
+            r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+            return Response('ok', status=200)
+
+
         r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
         return Response('ok', status=200)
     else:
@@ -39,54 +57,54 @@ def reply():
     message_body = request.form['Body']
     message_body = message_body.split()
 
-    if message_body[0].lower() == '!echo':
+    if message_body[0].lower() == '/echo':
         response = ' '.join(message_body[1:])
 
-    elif message_body[0].lower() == '!rtop':
+    elif message_body[0].lower() == '/rtop':
         response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
 
-    elif message_body[0].lower() == '!ecim' and num_media > 0:
+    elif message_body[0].lower() == '/ecim' and num_media > 0:
         media_url = request.values.get(f'MediaUrl{0}')
         resp = MessagingResponse()
         resp.message(body = 'Echoed image').media(echoimage(media_url))
         clean()
         return str(resp)
 
-    elif message_body[0].lower() == '!sdku' and num_media > 0:
+    elif message_body[0].lower() == '/sdku' and num_media > 0:
         media_url = request.values.get(f'MediaUrl{0}')
         resp = MessagingResponse()
         resp.message(body = 'sudoku').media(sudoku(media_url))
         clean()
         return str(resp)
 
-    elif message_body[0].lower() == '!mtch':
+    elif message_body[0].lower() == '/mtch':
         response = rawreturn()[:100]
 
-    elif message_body[0].lower() == '!clen':
+    elif message_body[0].lower() == '/clen':
         response = clean(path = 'temp/', log = True)
 
-    elif message_body[0].lower() == '!dank':
+    elif message_body[0].lower() == '/dank':
         resp = MessagingResponse()
         mess, media_url, _ = randomimageretriever(Sub='dankmemes')
         resp.message(body = mess).media(media_url)
         clean()
         return str(resp)
 
-    elif message_body[0].lower() == '!cohv':
+    elif message_body[0].lower() == '/cohv':
         resp = MessagingResponse()
         mess, media_url, _ = randomimageretriever(Sub='comedyheaven')
         resp.message(body = mess).media(media_url)
         clean()
         return str(resp)
 
-    elif message_body[0].lower() == '!cpst':
+    elif message_body[0].lower() == '/cpst':
         resp = MessagingResponse()
         _, media_url, mess = randomimageretriever(Sub='copypasta')
         mess = mess.encode('ascii', 'ignore').decode('ascii')
         resp.message(body = mess)
         return str(resp)
 
-    elif message_body[0].lower() == '!joke':
+    elif message_body[0].lower() == '/joke':
         resp = MessagingResponse()
         title, _, mess = randomimageretriever(Sub='jokes')
         mess = title + '\n\n\n' + mess
