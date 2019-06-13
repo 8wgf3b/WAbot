@@ -23,7 +23,7 @@ def webhook():
     return '!', 200
 
 @app.route('/'+token, methods=['POST'])
-def webhook():
+def getmessage():
     if request.headers.get('content-type') == 'application/json':
         json_string = request.stream.read().decode('utf-8')
         update = telebot.types.Update.de_json(json_string)
