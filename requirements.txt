@@ -2,7 +2,7 @@ uwsgi
 #psycopg2==2.7.1
 twilio==6.16.4
 Flask==1.0.3
-urllib3==1.24.1
+urllib3>=1.24.1
 requests==2.21.0
 APScheduler==3.6.0
 praw==6.2.0
@@ -11,8 +11,8 @@ update-checker==0.16
 websocket-client==0.56.0
 pyimgur==0.6.0
 numpy==1.16.2
-opencv-python-headless==4.1.0.25
+#opencv-python-headless==4.1.0.25
 #tensorflow==1.13.1
 #Keras==2.2.4
 #pycricbuzz==2.4
-jsonschema==2.6.0
+#pyTelegramBotAPI==3.6.6
