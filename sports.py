@@ -13,7 +13,7 @@ def livescore():
     s = ''
     for match in lis:
         s += match['homeTeam']['shortName'] + ' vs ' + match['awayTeam']['shortName'] + '\n'
-        s += match['matchSummaryText'] + '\n'
+        s += match['matchSummaryText'] + '\n\n'
         sid = str(match['series']['id'])
         mid = str(match['id'])
         resp = requests.get(address + 'scorecards.php?seriesid=' + sid + '&matchid=' + mid, headers = param)
