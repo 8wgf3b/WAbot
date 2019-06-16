@@ -31,7 +31,7 @@ def livescore():
                 cb['name'] += '*'
             s += cb['name'] + ': ' + cb['runs'] + ' (' + cb['ballsFaced'] + ') ' + 'SR: ' + cb['strikeRate'] + '\n'
 
-        #s += md['matchSummary']['matchSummaryText'] +'\n\n'
+        s += '\n\n'
     return s
 
 
