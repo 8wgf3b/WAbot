@@ -13,7 +13,7 @@ def livescore():
     s = ''
     for match in lis:
         s += match['homeTeam']['shortName'] + ' vs ' + match['awayTeam']['shortName'] + '\n'
-        s += match['matchSummaryText'] + '\n\n'
+        s += match['matchSummaryText'] + '\n'
         sid = str(match['series']['id'])
         mid = str(match['id'])
         resp = requests.get(address + 'scorecards.php?seriesid=' + sid + '&matchid=' + mid, headers = param)
@@ -22,7 +22,7 @@ def livescore():
         #s = md['teamBatting']['shortName'] + ' vs ' + md['teamBowling']['shortName'] + '\n'
         #s += md['tossMessage'] + '\n'
         for inn in sc['innings']:
-            s += inn['name'] + '\n'
+            s += '\n' + inn['name'] + '\n'
             s += inn['run'] + '-' + inn['wicket'] +  '(' + inn['over'] + ')\n\n'
             for bat in inn['batsmen']:
                 if bat['balls'] == '':
