@@ -12,25 +12,25 @@ def livescore():
         return 'no live matches\n'
     s = ''
     for match in lis:
+        s += match['homeTeam']['shortName'] + ' vs ' + match['awayTeam']['shortName'] + '\n'
+        s += match['matchSummaryText'] + '\n'
         sid = str(match['series']['id'])
         mid = str(match['id'])
-        resp = requests.get(address + 'matchdetail.php?seriesid=' + sid + '&matchid=' + mid, headers = param)
+        resp = requests.get(address + 'scorecards.php?seriesid=' + sid + '&matchid=' + mid, headers = param)
         js1 = resp.json()
-        md = js1['matchDetail']
-        s = md['teamBatting']['shortName'] + ' vs ' + md['teamBowling']['shortName'] + '\n'
-        s += md['tossMessage'] + '\n'
-        for i in md['innings']:
-            s += i['shortName'] + ': ' + str(i['runs']) + '-' + str(i['wickets']) + ' (' + str(i['overs']) +')\n'
-        a = set()
-        for cb in md['currentBatters']:
-            if cb['name'] not in a:
-                a.add(cb['name'])
-            else:
-                continue
-            if cb['isFacing']  == True:
-                cb['name'] += '*'
-            s += cb['name'] + ': ' + cb['runs'] + ' (' + cb['ballsFaced'] + ') ' + 'SR: ' + cb['strikeRate'] + '\n'
-
+        sc = js1['fullScorecard']
+        #s = md['teamBatting']['shortName'] + ' vs ' + md['teamBowling']['shortName'] + '\n'
+        #s += md['tossMessage'] + '\n'
+        for inn in sc['innings']:
+            s += inn['name'] + '\n'
+            s += inn['run'] + '-' + inn['wicket'] +  '(' + inn['over'] + ')\n\n'
+            for bat in inn['batsmen']:
+                if bat['balls'] == '':
+                    continue
+                s += bat['name'] + '  ' + bat['runs'] + '(' + bat['balls'] + ')  ' + bat['howOut'] + '\n'
+            s += '\n'
+            for ball in inn['bowlers']:
+                s += ball['name'] +'  '+ ball['overs'] + '-' +ball['maidens']  + '-' +ball['runsConceded'] + '-' +ball['wickets']+'\n'
         s += '\n\n'
     return s
 
