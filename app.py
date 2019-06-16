@@ -6,7 +6,7 @@ from reddit import topretriever, randomimageretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
 from random import random
-from sports import getmatches, rawreturn
+from sports import livescore
 import os
 #import telebot
 
@@ -52,6 +52,10 @@ def telegram():
             elif message_body[0].lower() == '/joke':
                 title, media_url, mess = randomimageretriever(Sub='jokes')
                 mess = title + '\n\n' + mess
+                payload = {'chat_id': chat_id, 'text': mess}
+
+            elif message_body[0].lower() == '/livc':
+                mess = livescore()
                 payload = {'chat_id': chat_id, 'text': mess}
 
             else:
@@ -103,8 +107,8 @@ def whatsapp():
         clean()
         return str(resp)
 
-    elif message_body[0].lower() == '/mtch':
-        response = rawreturn()[:100]
+    elif message_body[0].lower() == '/livc':
+        response = livescore()
 
     elif message_body[0].lower() == '/clen':
         response = clean(path = 'temp/', log = True)
