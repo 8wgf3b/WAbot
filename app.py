@@ -58,16 +58,6 @@ def telegram():
                 mess = livescore()
                 payload = {'chat_id': chat_id, 'text': mess}
 
-            else:
-                mess = ''
-                lst = [str.upper, str.lower]
-                for x in message_body:
-                    mess += ''.join(c.upper() if random() > 0.5 else c for c in x) + ' '
-                media_url = 'http://i.imgur.com/nOVxxwU.jpg'
-                response = mess[:-1]
-                payload = {'chat_id': chat_id, 'caption': response, 'photo':media_url}
-                r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
-                return Response('ok', status=200)
 
 
             r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
