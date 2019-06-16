@@ -25,8 +25,6 @@ def telegram():
             chat_id = js['message']['chat']['id']
             message_body = js['message']['text']
             message_body = message_body.split()
-            if '@fbpa_bot' in message_body:
-                message_body.remove('@fbpa_bot')
             if message_body[0].lower() == '/echo':
                 response = ' '.join(message_body[1:])
                 payload = {'chat_id': chat_id, 'text': response}
@@ -79,7 +77,7 @@ def telegram():
 
 
 @app.route('/inb', methods=['GET', 'POST'])
-def reply():
+def whatsapp():
     number = request.form['From']
     num_media = int(request.values.get("NumMedia"))
     message_body = request.form['Body']
