@@ -26,6 +26,7 @@ def getscorecard(sid, mid):
     resp = requests.get(address + 'scorecards.php?seriesid=' + sid + '&matchid=' + mid, headers = param)
     js1 = resp.json()
     sc = js1['fullScorecard']
+    s = ''
     #s = md['teamBatting']['shortName'] + ' vs ' + md['teamBowling']['shortName'] + '\n'
     #s += md['tossMessage'] + '\n'
     for inn in sc['innings']:
