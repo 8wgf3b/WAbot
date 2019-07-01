@@ -60,7 +60,7 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': mess}
 
             elif message_body[0].lower() == '/clam':
-                mess = relation(message_body[0].lower(), None)
+                mess = relation('/clam', None)['result']
                 payload = {'chat_id': chat_id, 'text': mess}
 
             r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
