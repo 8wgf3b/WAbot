@@ -7,6 +7,7 @@ from media import echoimage, clean, sudoku
 from twilio.rest import Client
 from random import random
 from sports import livescore
+from bigbro import relation
 import os
 #import telebot
 
@@ -58,7 +59,9 @@ def telegram():
                 mess = livescore()
                 payload = {'chat_id': chat_id, 'text': mess}
 
-
+            elif message_body[0].lower() == '/clam':
+                mess = relation(message_body[0].lower(), None)
+                payload = {'chat_id': chat_id, 'text': mess}
 
             r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
             return Response('ok', status=200)
