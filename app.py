@@ -14,8 +14,14 @@ import os
 
 
 app = Flask(__name__)
-website = os.environ['WEBSITE']
-token = os.environ['TEL_ACC_TOK']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+website = os.environ.get('WEBSITE', '')
+token = os.environ.get('TEL_ACC_TOK', '')
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 @app.route('/'+token, methods=['POST'])
 def telegram():
@@ -153,4 +159,6 @@ def whatsapp():
     return str(resp)
 
 if __name__ == '__main__':
+    from db import db
+    db.init_app(app)
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
