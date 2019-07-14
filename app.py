@@ -23,6 +23,9 @@ token = os.environ.get('TEL_ACC_TOK', '')
 def create_tables():
     db.create_all()
 
+@app.route('/ifttt', methods=['POST'])
+def ifttt():
+    pass
 @app.route('/'+token, methods=['POST'])
 def telegram():
     telweb = 'https://api.telegram.org/bot'
