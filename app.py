@@ -24,7 +24,15 @@ token = os.environ.get('TEL_ACC_TOK', '')
 
 @app.route('/ifttt', methods=['POST'])
 def ifttt():
-    pass
+    if request.method == 'POST':
+        try:
+            return Response('ok', status=200)
+
+        except Exception as e:
+            print(e)
+            return Response('ok', status=200)
+    else:
+        return Response('ok', status=200)
 
 
 @app.route('/'+token, methods=['POST'])
@@ -39,6 +47,9 @@ def telegram():
             if message_body[0].lower() == '/echo':
                 response = ' '.join(message_body[1:])
                 payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redreg':
+                payload = {'chat_id': chat_id, 'text': chat_id}
 
             elif message_body[0].lower() == '/rtop':
                 response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
