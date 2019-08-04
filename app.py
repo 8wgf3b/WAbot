@@ -49,7 +49,8 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
-                payload = {'chat_id': chat_id, 'text': chat_id}
+                response = str(js) 
+                payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/rtop':
                 response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
