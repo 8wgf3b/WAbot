@@ -8,6 +8,7 @@ from twilio.rest import Client
 from random import random
 from sports import livescore
 from bigbro import relation
+from db import User
 import os
 #import telebot
 
@@ -49,7 +50,10 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
-                response = str(js) 
+                user = User(js['message']['from']['username'], chat_id)
+                user.upsert()
+                done = User.getall()[0]
+                response = done.username + '\n' + done.key + '\n'
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/rtop':
