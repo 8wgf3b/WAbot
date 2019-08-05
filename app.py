@@ -24,7 +24,9 @@ db.init_app(app)
 website = os.environ.get('WEBSITE', '')
 token = os.environ.get('TEL_ACC_TOK', '')
 
-
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 @app.route('/ifttt', methods=['POST'])
 def ifttt():
@@ -53,7 +55,7 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
-                user = User(js['message']['from']['username'], chat_id)
+                user = User(js['message']['from']['username'], str(chat_id))
                 user.upsert()
                 done = User.getall()[0]
                 response = done.username + '\n' + done.key + '\n'
