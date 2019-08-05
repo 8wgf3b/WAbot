@@ -36,9 +36,14 @@ def ifttt():
             telweb = 'https://api.telegram.org/bot'
             for user in User.getall():
                 chat_id = user.key
-                response = str(js)
-                payload = {'chat_id': chat_id, 'text': response}
-                r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
+
+                if js['action'] == 'redditroutine':
+                    subs = ['datascience', 'cscareerquestions', 'learnmachinelearning', 'machinelearning', 'python', 'statistics', 'raspberry_pi']
+                    for sub in subs:
+                        response = topretriever(sub, 'day', 10, False)
+                        payload = {'chat_id': chat_id, 'text': response}
+                        r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
+        
                 return Response('ok', status=200)
 
         except Exception as e:
