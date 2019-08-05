@@ -8,14 +8,50 @@ from twilio.rest import Client
 from random import random
 from sports import livescore
 from bigbro import relation
+from db import User
 import os
+from db import db
+
 #import telebot
 
 
 
 app = Flask(__name__)
-website = os.environ['WEBSITE']
-token = os.environ['TEL_ACC_TOK']
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+db.init_app(app)
+website = os.environ.get('WEBSITE', '')
+token = os.environ.get('TEL_ACC_TOK', '')
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+@app.route('/ifttt', methods=['POST'])
+def ifttt():
+    if request.method == 'POST':
+        try:
+            js = request.get_json()
+            telweb = 'https://api.telegram.org/bot'
+            for user in User.getall():
+                chat_id = user.key
+
+                if js['action'] == 'redditroutine':
+                    subs = ['datascience', 'cscareerquestions', 'learnmachinelearning', 'machinelearning', 'python', 'statistics', 'raspberry_pi']
+                    for sub in subs:
+                        response = topretriever(sub, 'day', 10, False)
+                        payload = {'chat_id': chat_id, 'text': response}
+                        r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
+
+            return Response('ok', status=200)
+
+        except Exception as e:
+            print(e)
+            return Response('ok', status=200)
+    else:
+        return Response('ok', status=200)
+
 
 @app.route('/'+token, methods=['POST'])
 def telegram():
@@ -28,6 +64,13 @@ def telegram():
             message_body = message_body.split()
             if message_body[0].lower() == '/echo':
                 response = ' '.join(message_body[1:])
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redreg':
+                user = User(js['message']['from']['username'], str(chat_id))
+                user.upsert()
+                done = User.getall()[0]
+                response = done.username + '\n' + done.key + '\n'
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/rtop':
@@ -153,4 +196,8 @@ def whatsapp():
     return str(resp)
 
 if __name__ == '__main__':
+    if app.config['DEBUG']:
+        @app.before_first_request
+        def create_tables():
+            db.create_all()
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
