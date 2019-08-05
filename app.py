@@ -32,7 +32,14 @@ def create_tables():
 def ifttt():
     if request.method == 'POST':
         try:
-            return Response('ok', status=200)
+            js = request.get_json()
+            telweb = 'https://api.telegram.org/bot'
+            for user in User.getall():
+                chat_id = user.key
+                response = str(js)
+                payload = {'chat_id': chat_id, 'text': response}
+                r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
+                return Response('ok', status=200)
 
         except Exception as e:
             print(e)
