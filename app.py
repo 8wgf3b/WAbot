@@ -43,8 +43,8 @@ def ifttt():
                         response = topretriever(sub, 'day', 10, False)
                         payload = {'chat_id': chat_id, 'text': response}
                         r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
-        
-                return Response('ok', status=200)
+
+            return Response('ok', status=200)
 
         except Exception as e:
             print(e)
