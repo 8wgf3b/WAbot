@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 import requests
 import logging
 from twilio.twiml.messaging_response import MessagingResponse
@@ -27,6 +27,18 @@ token = os.environ.get('TEL_ACC_TOK', '')
 @app.before_first_request
 def create_tables():
     db.create_all()
+
+@app.route('/privacypolicy')
+def privacypolicy():
+    return render_template('privacypolicy.html')
+
+@app.route('/')
+def mainpage():
+    return 'This is a personal chatbot for whatsapp and telegram'
+
+@app.route('/termsofservice')
+def tos():
+    return render_template('termsfeed-terms-conditions-html-english.html')
 
 @app.route('/ifttt', methods=['POST'])
 def ifttt():
