@@ -44,6 +44,10 @@ class Resub(db.Model):
     def getall(cls):
         return cls.query.all()
 
+    @classmethod
+    def sublist(cls, cid):
+        return cls.query.filter(cls.chatid == cid).first().subs
+
     def upsert(self):
         item = Resub.query.filter_by(chatid = self.chatid).first()
         if item != None:
@@ -104,6 +108,7 @@ if __name__ == '__main__':
             s = ''
             for item in Resub.getall():
                 s += item.chatid + ' ' + item.subs + '\n\n'
+            s += Resub.sublist('riori')
             return Response(s, status=200)
 
 

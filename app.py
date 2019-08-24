@@ -46,11 +46,11 @@ def ifttt():
         try:
             js = request.get_json()
             telweb = 'https://api.telegram.org/bot'
-            for user in User.getall():
+            for user in Resub.getall():
                 chat_id = user.key
 
                 if js['action'] == 'redditroutine':
-                    subs = ['datascience', 'cscareerquestions', 'learnmachinelearning', 'machinelearning', 'python', 'statistics', 'raspberry_pi']
+                    subs = user.subs.split()
                     for sub in subs:
                         response = topretriever(sub, 'day', 10, False)
                         payload = {'chat_id': chat_id, 'text': response}
@@ -81,10 +81,17 @@ def telegram():
             elif message_body[0].lower() == '/redreg':
                 user = Resub(str(chat_id), ' '.join(message_body[1:]))
                 user.upsert()
-                done = Resub.getall()
-                response = ''
-                for user in done:
-                    response += user.chatid + '\n' + user.subs + '\n\n'
+                response = 'Subslist\n' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redapp':
+                Resub.redappend(str(chat_id), message_body[1:])
+                response = 'Subslist\n' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/reddel':
+                Resub.redremove(str(chat_id), message_body[1:])
+                response = 'Subslist\n' + '\n* '.join(Resub.sublist(str(chat_id)).split())
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/rtop':
