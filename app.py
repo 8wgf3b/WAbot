@@ -8,7 +8,7 @@ from twilio.rest import Client
 from random import random
 from sports import livescore
 from bigbro import relation
-from db import User
+from db import Resub
 import os
 from db import db
 
@@ -79,10 +79,12 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
-                user = User(js['message']['from']['username'], str(chat_id))
+                user = Resub(str(chat_id), ' '.join(message_body[1:]))
                 user.upsert()
-                done = User.getall()[0]
-                response = done.username + '\n' + done.key + '\n'
+                done = Resub.getall()
+                response = ''
+                for user in done:
+                    response += user.chatid + '\n' + user.subs + '\n\n'
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/rtop':

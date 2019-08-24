@@ -28,6 +28,50 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
+
+class Resub(db.Model):
+    __tablename__ = "resub"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    chatid = db.Column(db.String(50), unique=True, nullable=False)
+    subs = db.Column(db.String(200), nullable=False, default='')
+
+    def __init__(self, chatid, subs=''):
+        self.chatid = chatid
+        self.subs = subs
+
+    @classmethod
+    def getall(cls):
+        return cls.query.all()
+
+    def upsert(self):
+        item = Resub.query.filter_by(chatid = self.chatid).first()
+        if item != None:
+            db.session.delete(item)
+            db.session.commit()
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def redappend(cls, cid, new = []):
+        item = cls.query.filter(cls.chatid == cid).first()
+        if item == None:
+            return
+        buffer = item.subs.split()
+        buffer.extend(new)
+        item.subs = ' '.join(buffer)
+        db.session.commit()
+
+    @classmethod
+    def redremove(cls, cid, subslist = []):
+        item = cls.query.filter(cls.chatid == cid).first()
+        if item == None:
+            return
+        buffer = item.subs.split()
+        buffer = list(set(buffer) - set(subslist))
+        item.subs = ' '.join(buffer)
+        db.session.commit()
+
 if __name__ == '__main__':
     app = Flask(__name__)
     app.config['DEBUG'] = True
@@ -49,15 +93,17 @@ if __name__ == '__main__':
                 print(e)
                 return Response('ok', status=200)
         else:
-            new = User('riori', 'ew535325')
+            new = Resub('riori')
             new.upsert()
-            new = User('riori', 'ewewt535325')
+            new = Resub('riori')
             new.upsert()
-            new = User('rioasifuri', 'ewewt535325')
+            new = Resub('rioasifuri')
             new.upsert()
+            Resub.redappend('riori', ['lol', 'lmao'])
+            Resub.redremove('rioasifuri', ['qwrwr'])
             s = ''
-            for item in User.getall():
-                s += item.username +'\n'
+            for item in Resub.getall():
+                s += item.chatid + ' ' + item.subs + '\n\n'
             return Response(s, status=200)
 
 
