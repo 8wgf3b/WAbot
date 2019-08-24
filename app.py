@@ -47,7 +47,7 @@ def ifttt():
             js = request.get_json()
             telweb = 'https://api.telegram.org/bot'
             for user in Resub.getall():
-                chat_id = user.key
+                chat_id = user.chatid
 
                 if js['action'] == 'redditroutine':
                     subs = shuffle(user.subs.split())
@@ -100,6 +100,14 @@ def telegram():
             elif message_body[0].lower() == '/redlist':
                 response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
                 payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redtest':
+                subs = shuffle(Resub.sublist(str(chat_id)).split())
+                for sub in subs:
+                    response = topretriever(sub, 'day', 10, False)
+                    payload = {'chat_id': chat_id, 'text': response}
+                    r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
+                return Response('ok', status=200)
 
             elif message_body[0].lower() == '/rtop':
                 response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
