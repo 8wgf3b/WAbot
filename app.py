@@ -50,7 +50,8 @@ def ifttt():
                 chat_id = user.chatid
 
                 if js['action'] == 'redditroutine':
-                    subs = shuffle(user.subs.split())
+                    subs = user.subs.split()
+                    shuffle(subs)
                     for sub in subs:
                         response = topretriever(sub, 'day', 10, False)
                         payload = {'chat_id': chat_id, 'text': response}
@@ -102,7 +103,8 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redtest':
-                subs = shuffle(Resub.sublist(str(chat_id)).split())
+                subs = Resub.sublist(str(chat_id)).split()
+                shuffle(subs)
                 for sub in subs:
                     response = topretriever(sub, 'day', 10, False)
                     payload = {'chat_id': chat_id, 'text': response}
