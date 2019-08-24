@@ -5,7 +5,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever, randomimageretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
-from random import random
+from random import random, shuffle
 from sports import livescore
 from bigbro import relation
 from db import Resub
@@ -50,7 +50,7 @@ def ifttt():
                 chat_id = user.key
 
                 if js['action'] == 'redditroutine':
-                    subs = user.subs.split()
+                    subs = shuffle(user.subs.split())
                     for sub in subs:
                         response = topretriever(sub, 'day', 10, False)
                         payload = {'chat_id': chat_id, 'text': response}
@@ -79,19 +79,26 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
-                user = Resub(str(chat_id), ' '.join(message_body[1:]))
+                s = list(set(map(lambda x: x.lower(), message_body[1:])))
+                user = Resub(str(chat_id), ' '.join(s))
                 user.upsert()
-                response = 'Subslist\n' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redapp':
-                Resub.redappend(str(chat_id), message_body[1:])
-                response = 'Subslist\n' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                s = list(set(map(lambda x: x.lower(), message_body[1:])))
+                Resub.redappend(str(chat_id), s)
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/reddel':
-                Resub.redremove(str(chat_id), message_body[1:])
-                response = 'Subslist\n' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                s = list(set(map(lambda x: x.lower(), message_body[1:])))
+                Resub.redremove(str(chat_id), s)
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redlist':
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/rtop':

@@ -62,7 +62,7 @@ class Resub(db.Model):
         if item == None:
             return
         buffer = item.subs.split()
-        buffer.extend(new)
+        buffer = list(set(buffer) | set(new))
         item.subs = ' '.join(buffer)
         db.session.commit()
 
@@ -104,6 +104,7 @@ if __name__ == '__main__':
             new = Resub('rioasifuri')
             new.upsert()
             Resub.redappend('riori', ['lol', 'lmao'])
+            Resub.redappend('riori', ['lol', 'truedat'])
             Resub.redremove('rioasifuri', ['qwrwr'])
             s = ''
             for item in Resub.getall():
