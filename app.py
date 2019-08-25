@@ -5,10 +5,10 @@ from twilio.twiml.messaging_response import MessagingResponse
 from reddit import topretriever, randomimageretriever
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
-from random import random
+from random import random, shuffle
 from sports import livescore
 from bigbro import relation
-from db import User
+from db import Resub
 import os
 from db import db
 
@@ -46,11 +46,12 @@ def ifttt():
         try:
             js = request.get_json()
             telweb = 'https://api.telegram.org/bot'
-            for user in User.getall():
-                chat_id = user.key
+            for user in Resub.getall():
+                chat_id = user.chatid
 
                 if js['action'] == 'redditroutine':
-                    subs = ['datascience', 'cscareerquestions', 'learnmachinelearning', 'machinelearning', 'python', 'statistics', 'raspberry_pi']
+                    subs = user.subs.split()
+                    shuffle(subs)
                     for sub in subs:
                         response = topretriever(sub, 'day', 10, False)
                         payload = {'chat_id': chat_id, 'text': response}
@@ -79,11 +80,36 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
-                user = User(js['message']['from']['username'], str(chat_id))
+                s = list(set(map(lambda x: x.lower(), message_body[1:])))
+                user = Resub(str(chat_id), ' '.join(s))
                 user.upsert()
-                done = User.getall()[0]
-                response = done.username + '\n' + done.key + '\n'
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
                 payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redapp':
+                s = list(set(map(lambda x: x.lower(), message_body[1:])))
+                Resub.redappend(str(chat_id), s)
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/reddel':
+                s = list(set(map(lambda x: x.lower(), message_body[1:])))
+                Resub.redremove(str(chat_id), s)
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redlist':
+                response = 'Subslist\n* ' + '\n* '.join(Resub.sublist(str(chat_id)).split())
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/redtest':
+                subs = Resub.sublist(str(chat_id)).split()
+                shuffle(subs)
+                for sub in subs:
+                    response = topretriever(sub, 'day', 10, False)
+                    payload = {'chat_id': chat_id, 'text': response}
+                    r = requests.post(telweb+token+'/'+'sendMessage', json=payload)
+                return Response('ok', status=200)
 
             elif message_body[0].lower() == '/rtop':
                 response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
