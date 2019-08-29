@@ -124,7 +124,7 @@ def telegram():
 
             elif message_body[0].lower() == '/ruseran':
                 media_url, m1, m2 = useranalysis(*message_body[1:])
-                mess = 'post karma: ' + m1 + '\n comment karma: ' + m2 + '\n'
+                mess = 'post karma: '.ljust(20) + m1 + '\ncomment karma: '.ljust(20) + m2 + '\n'
                 payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
                 r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
             #    clean()
