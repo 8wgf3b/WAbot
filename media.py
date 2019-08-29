@@ -3,14 +3,17 @@ import requests
 import os, shutil
 
 
-def echoimage(URL):
+def echoimage(URL, file=False):
     im = pyimgur.Imgur(os.environ['IMGUR_CID'])
     #url can be sent directly but i wanted to test the temp directory's usage
-    response = requests.get(URL)
-    if response.status_code == 200:
-        with open("temp/echoim.jpg", 'wb') as f:
-            f.write(response.content)
-    uploaded_image = im.upload_image("temp/echoim.jpg", title="twilwhatbot")
+    if file == False:
+        response = requests.get(URL)
+        if response.status_code == 200:
+            with open("temp/echoim.jpg", 'wb') as f:
+                f.write(response.content)
+        uploaded_image = im.upload_image("temp/echoim.jpg", title="twilwhatbot")
+    else:
+        uploaded_image = im.upload_image(URL, title="twilwhatbot")
     return uploaded_image.link
 
 def clean(path = 'temp/', log = False):

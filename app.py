@@ -2,7 +2,7 @@ from flask import Flask, request, Response, render_template
 import requests
 import logging
 from twilio.twiml.messaging_response import MessagingResponse
-from reddit import topretriever, randomimageretriever
+from reddit import topretriever, randomimageretriever, useranalysis
 from media import echoimage, clean, sudoku
 from twilio.rest import Client
 from random import random, shuffle
@@ -11,6 +11,7 @@ from bigbro import relation
 from db import Resub
 import os
 from db import db
+
 
 #import telebot
 
@@ -119,6 +120,14 @@ def telegram():
                 mess, media_url, _ = randomimageretriever(Sub='dankmemes')
                 payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
                 r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+                return Response('ok', status=200)
+
+            elif message_body[0].lower() == '/ruseran':
+                media_url, m1, m2 = useranalysis(*message_body[1:])
+                mess = 'post karma: '.ljust(20) + m1 + '\ncomment karma: '.ljust(20) + m2 + '\n'
+                payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
+                r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+            #    clean()
                 return Response('ok', status=200)
 
             elif message_body[0].lower() == '/cohv':
