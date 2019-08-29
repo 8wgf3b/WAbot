@@ -87,7 +87,7 @@ def userplotwithparam(saveloc='temp/lol.jpg'):
     return userplot
 
 
-@userplotwithparam('temp/spam.jpg')
+@userplotwithparam('temp/spam.png')
 def useranalysis(user, trend = 30):
     user = user.split('/')[-1]
     address = 'https://api.pushshift.io//reddit/search/'
