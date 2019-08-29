@@ -54,7 +54,7 @@ def userplotwithparam(saveloc='temp/lol.jpg'):
             df = func(user, d)
             fig, axes = plt.subplots(nrows=3, ncols=2)
 
-            SMALL_SIZE = 4
+            SMALL_SIZE = 5
             MEDIUM_SIZE = 8
             BIGGER_SIZE = 10
 
