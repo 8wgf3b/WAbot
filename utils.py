@@ -20,3 +20,11 @@ def timeformat(x=datetime.now(), typ='DATE'):
         return x.strftime('%H:%M:%S')
     elif typ=='BOTH':
         return x.strftime('%Y-%m-%d')+'%20'+x.strftime('%H:%M:%S')
+
+
+if __name__ == '__main__':
+    import time
+    x = time.time()
+    time.sleep(6)
+    y = time.time()
+    print(y - x)

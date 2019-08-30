@@ -10,6 +10,7 @@ from sports import livescore
 from bigbro import relation
 from db import Resub
 import os
+import time
 from db import db
 
 
@@ -76,6 +77,10 @@ def telegram():
             chat_id = js['message']['chat']['id']
             message_body = js['message']['text']
             message_body = message_body.split()
+            date = js['message']['date']
+            if  time.time() - date > 60:
+                return Response('ok', status=200)
+
             if message_body[0].lower() == '/echo':
                 response = ' '.join(message_body[1:])
                 payload = {'chat_id': chat_id, 'text': response}
