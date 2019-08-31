@@ -3,9 +3,9 @@ import calendar
 from datetime import datetime, date
 
 
-def utc(x, totimestamp=False):
+def utc(x, totimestamp=False, format = 'BOTH'):
     if totimestamp == False:
-        return timeformat(datetime.utcfromtimestamp(x), 'BOTH')
+        return timeformat(datetime.utcfromtimestamp(x), format)
     else:
         d = datetime(*x)
         epoch = datetime(1970,1,1)
@@ -20,11 +20,9 @@ def timeformat(x=datetime.now(), typ='DATE'):
         return x.strftime('%H:%M:%S')
     elif typ=='BOTH':
         return x.strftime('%Y-%m-%d')+'%20'+x.strftime('%H:%M:%S')
+    else:
+        return x.strftime(typ)
 
 
 if __name__ == '__main__':
-    import time
-    x = time.time()
-    time.sleep(6)
-    y = time.time()
-    print(y - x)
+    print(utc(1566990000, format = '%m-%d %H'))
