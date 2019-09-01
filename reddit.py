@@ -129,12 +129,12 @@ def useranalysis(user, trend = 30):
         rawdf[x['key']][4] = x['doc_count']
     l = list(rawdf.items())
     columns = ['subscore', 'comscore', 'subcount', 'comcount', 'recentsub', 'recentcom']
-    r = requests.get(address+'submission/?'+'author='+ user +'&aggs=created_utc&size=0&frequency=hour&after=30d')
+    r = requests.get(address+'submission/?'+'author='+ user +'&aggs=created_utc&size=0&frequency=hour&after='+str(trend)+'d')
     cs = r.json()['aggs']['created_utc']
     m = defaultdict(lambda : 0)
     for item in cs:
         m[utc(item['key'], format = '%m-%d %H')] += item['doc_count']
-    r = requests.get(address+'comment/?'+'author='+ user +'&aggs=created_utc&size=0&frequency=hour&after=30d')
+    r = requests.get(address+'comment/?'+'author='+ user +'&aggs=created_utc&size=0&frequency=hour&after='+str(trend)+'d')
     cs = r.json()['aggs']['created_utc']
     for item in cs:
         m[utc(item['key'], format = '%m-%d %H')] += item['doc_count']
@@ -190,7 +190,7 @@ def subredditanalysis(sub, d = 30):
             rank = ind + 1
     if rank == -1:
         rank = '>2000'
-    str(rank)
+    rank = str(rank)
     r = requests.get('https://api.pushshift.io/reddit/search/comment/?subreddit=' + sub + '&aggs=created_utc&size=0&frequency=hour&after=' + str(d) + 'd')
     cs = r.json()['aggs']['created_utc']
     m = defaultdict(lambda : 0)
@@ -209,5 +209,6 @@ def subredditanalysis(sub, d = 30):
     return rdf, table, rank
 
 if __name__ == '__main__':
-    _, rank = subredditanalysis('aww')
-    print(rank)
+    #_, rank = subredditanalysis('aww')
+    a, b, c = useranalysis('achelois17', 14)
+    #print(rank)
