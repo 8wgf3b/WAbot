@@ -146,8 +146,68 @@ def useranalysis(user, trend = 30):
     table = table.fillna(0)
     return table, pd.DataFrame([x[1] for x in l], index = [x[0] for x in l], columns = columns)
 
+def subplotwithparam(saveloc='temp/lol.jpg'):
+    def userplot(func):
+        def inner(user, d = 30):
+            rdf, table, rank = func(user, d)
+            fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10,5))
 
+            SMALL_SIZE = 6
+            MEDIUM_SIZE = 8
+            BIGGER_SIZE = 10
 
+            plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+            plt.rc('axes', titlesize=MEDIUM_SIZE)     # fontsize of the axes title
+            plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+            plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+            plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+            plt.rc('legend', fontsize=MEDIUM_SIZE)    # legend fontsize
+            plt.rc('figure', titlesize=MEDIUM_SIZE)
+            rdf.plot.barh(legend = False, ax = axes[0], x='subreddit')
+            axes[0].set_title('trending subs by karma in last hour')
+
+            sns.heatmap(table, cmap = sns.cm.rocket_r, ax = axes[1])
+            axes[1].set_title('last ' + str(d) + ' days activity')
+
+            plt.tight_layout()
+            plt.savefig(saveloc, dpi = 100)
+            return echoimage(saveloc,file=True), rank
+        return inner
+    return userplot
+
+@subplotwithparam('temp/spam.png')
+def subredditanalysis(sub, d = 30):
+    sub = sub.lower()
+    r = requests.get('https://api.pushshift.io/reddit/comment/search/?aggs=subreddit:score:sum&after=1h&agg_size=2000&size=0')
+    cs = r.json()['aggs']['author:score']
+    m = []
+    for i in range(10):
+        m.append((cs[i]['key'].lower(), cs[i]['score']))
+    rdf = pd.DataFrame(m, columns =['subreddit', 'karma'])
+    rank = -1
+    for ind, item in enumerate(cs):
+        if sub == item['key'].lower():
+            rank = ind + 1
+    if rank == -1:
+        rank = '>2000'
+    str(rank)
+    r = requests.get('https://api.pushshift.io/reddit/search/comment/?subreddit=' + sub + '&aggs=created_utc&size=0&frequency=hour&after=' + str(d) + 'd')
+    cs = r.json()['aggs']['created_utc']
+    m = defaultdict(lambda : 0)
+    for item in cs:
+        m[utc(item['key'], format = '%m-%d %H')] += item['doc_count']
+    r = requests.get('https://api.pushshift.io/reddit/search/comment/?subreddit=' + sub + '&aggs=created_utc&size=0&frequency=hour&after=' + str(d) + 'd')
+    cs = r.json()['aggs']['created_utc']
+    for item in cs:
+        m[utc(item['key'], format = '%m-%d %H')] += item['doc_count']
+    my_df  = pd.DataFrame(columns = ['date', 'hour', 'hits'])
+    for item in m.items():
+        v = item[0].split()
+        my_df.loc[len(my_df)] = [v[0], v[1], item[1]]
+    table = pd.pivot_table(my_df, values = 'hits', aggfunc = np.sum, columns = ['date'], index = ['hour'])
+    table = table.fillna(0)
+    return rdf, table, rank
 
 if __name__ == '__main__':
-    print(useranalysis('arandombanana39'))
+    _, rank = subredditanalysis('aww')
+    print(rank)
