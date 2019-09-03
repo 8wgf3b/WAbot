@@ -1,2 +1,10 @@
 # WAbot
-Just a casual Whatsapp bot to practice on or learn something.
+This is a whatsapp and telegram bot (planning to add discord too) that can do the following:
+* Provide live cricket scores
+* Send random trending dankmemes, comedyheaven, copypasta subreddit posts
+* (only telegram) You can get top posts of the day of your favourite subreddits for every 12 hours
+* Get user and subreddit analytics
+
+# bot commands
+
+ 
