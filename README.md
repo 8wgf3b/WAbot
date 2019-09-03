@@ -7,6 +7,5 @@ This is a whatsapp and telegram bot (planning to add discord too) that can do th
 
 # bot commands
 
-
-#[License] (https://github.com/8wgf3b/WAbot/blob/master/LICENSE)
+[License](https://github.com/8wgf3b/WAbot/blob/master/LICENSE)
  
