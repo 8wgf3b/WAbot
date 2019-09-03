@@ -9,6 +9,7 @@ from random import random, shuffle
 from sports import livescore
 from bigbro import relation
 from db import Resub
+from utils import utc
 import os
 import time
 from db import db
@@ -121,6 +122,10 @@ def telegram():
                 response = topretriever(message_body[1], message_body[2], int(message_body[3]), False)
                 payload = {'chat_id': chat_id, 'text': response}
 
+            elif message_body[0].lower() == '/utc':
+                response = utc(format='HOUR')
+                payload = {'chat_id': chat_id, 'text': response}
+
             elif message_body[0].lower() == '/dank':
                 mess, media_url, _ = randomimageretriever(Sub='dankmemes')
                 payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
@@ -210,8 +215,27 @@ def whatsapp():
     elif message_body[0].lower() == '/livc':
         response = livescore()
 
+    elif message_body[0].lower() == '/utc':
+        response = utc(format = 'HOUR')
+
     elif message_body[0].lower() == '/clen':
         response = clean(path = 'temp/', log = True)
+
+    elif message_body[0].lower() == '/ruseran':
+        resp = MessagingResponse()
+        media_url, m1, m2 = useranalysis(*message_body[1:])
+        mess = 'post karma: '.ljust(20) + m1 + '\ncomment karma: '.ljust(20) + m2 + '\n'
+        resp.message(body = mess).media(media_url)
+        clean()
+        return str(resp)
+
+    elif message_body[0].lower() == '/rsuban':
+        resp = MessagingResponse()
+        media_url, rank = subredditanalysis(*message_body[1:])
+        mess = message_body[1] + '\n\n' + 'trending rank: ' + rank
+        resp.message(body = mess).media(media_url)
+        clean()
+        return str(resp)
 
     elif message_body[0].lower() == '/dank':
         resp = MessagingResponse()

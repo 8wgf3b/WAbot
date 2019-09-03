@@ -1,9 +1,9 @@
 import os
 import calendar
 from datetime import datetime, date
+import time
 
-
-def utc(x, totimestamp=False, format = 'BOTH'):
+def utc(x = time.time(), totimestamp=False, format = 'BOTH'):
     if totimestamp == False:
         return timeformat(datetime.utcfromtimestamp(x), format)
     else:
@@ -25,4 +25,4 @@ def timeformat(x=datetime.now(), typ='DATE'):
 
 
 if __name__ == '__main__':
-    print(utc(1566990000, format = '%m-%d %H'))
+    print(utc(format='HOUR'))
