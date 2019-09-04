@@ -23,5 +23,7 @@ This is a whatsapp and telegram bot (planning to add discord too) that can do th
 
 <br />
 <br /><br /><br />
-[MIT License](https://github.com/8wgf3b/WAbot/blob/master/LICENSE)
+
+
+[MIT License](../blob/master/LICENSE)
  
