@@ -13,8 +13,8 @@ This is a whatsapp and telegram bot (planning to add discord too) that can do th
 **/cpst**: get a copypasta<br />
 **/utc**: get utc time<br />
 **/rtop {subreddit} {all/year/month/week/day/hour} {number of posts}>**: get top subreddit posts<br />
-**/joke**: random joke<br /><br /><br /><br />
-**/redreg {subreddit1: optional} {subreddit2: optional} {subreddit3: optional} ...**: register for daily reddit schedule (1130 and 2300 UTC) or unregister(just /redreg)<br /><br /><br />
+**/joke**: random joke<br /><br />
+**/redreg {subreddit1: optional} {subreddit2: optional} {subreddit3: optional} ...**: register for daily reddit schedule (1130 and 2300 UTC) or unregister(just /redreg)<br />
 **/redapp {subreddit1: optional} {subreddit2: optional} {subreddit3: optional} ...**: add new subreddits to the schedule<br /><br />
 **/reddel {subreddit1: optional} {subreddit2: optional} {subreddit3: optional} ...**: delete subreddits from the schedule<br />
 **/ruseran {redditor name or url} {number of days to check recent activity: optional}**: get user analytics<br />
