@@ -15,6 +15,8 @@ numpy==1.16.2
 pandas==0.24.2
 matplotlib==3.0.2
 seaborn==0.9.0
+newsapi-python==0.2.5
+
 
 #opencv-python-headless==4.1.0.25
 #tensorflow==1.13.1
