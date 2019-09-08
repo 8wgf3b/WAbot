@@ -88,7 +88,7 @@ def telegram():
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/news':
-                response = headlines(*message_body[1:])
+                response = headlines(' '.join(message_body[1:]))
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
