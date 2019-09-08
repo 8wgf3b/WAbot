@@ -13,6 +13,7 @@ from utils import utc
 import os
 import time
 from db import db
+from news import headlines
 
 
 #import telebot
@@ -86,6 +87,10 @@ def telegram():
                 response = ' '.join(message_body[1:])
                 payload = {'chat_id': chat_id, 'text': response}
 
+            elif message_body[0].lower() == '/news':
+                response = headlines(*message_body[1:])
+                payload = {'chat_id': chat_id, 'text': response}
+
             elif message_body[0].lower() == '/redreg':
                 s = list(set(map(lambda x: x.lower(), message_body[1:])))
                 user = Resub(str(chat_id), ' '.join(s))
@@ -131,6 +136,12 @@ def telegram():
 
             elif message_body[0].lower() == '/dank':
                 mess, media_url, _ = randomimageretriever(Sub='dankmemes')
+                payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
+                r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
+                return Response('ok', status=200)
+
+            elif message_body[0].lower() == '/curse':
+                mess, media_url, _ = randomimageretriever(Sub='cursedimages')
                 payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
                 r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
                 return Response('ok', status=200)
