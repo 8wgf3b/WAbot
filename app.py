@@ -161,7 +161,7 @@ def telegram():
 
                 else:
                     user = message_body[1].split('/')[-1]
-                    media_url, m1, m2 = useranalysis(*message_body[1:])
+                    media_url, m1, m2 = relation(*message_body[1:])['result']
                     mess = user + '\npost karma: '.ljust(20) + m1 + '\ncomment karma: '.ljust(20) + m2 + '\n'
                     payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
                     r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
@@ -173,7 +173,7 @@ def telegram():
                     response = 'example: /rsuban <subredditname>'
                     payload = {'chat_id': chat_id, 'text': response}
                 else:
-                    media_url, rank = subredditanalysis(*message_body[1:])
+                    media_url, rank = relation(*message_body[1:])['result']
                     mess = message_body[1] + '\n\n' + 'trending rank: ' + rank
                     payload = {'chat_id': chat_id, 'caption': mess, 'photo':media_url}
                     r = requests.post(telweb+token+'/'+'sendPhoto', json=payload)
