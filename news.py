@@ -14,6 +14,4 @@ def headlines(terms = None):
 
 if __name__ == '__main__':
     print(headlines('boris johnson'))
-
-
 #    sources = newsapi.get_sources()

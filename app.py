@@ -11,6 +11,7 @@ from bigbro import relation
 from db import Resub
 from utils import utc
 import os
+import json
 import time
 from db import db
 from news import headlines
@@ -85,13 +86,17 @@ def telegram():
 
             if message_body[0].endswith('@fbpa_bot'):
                 message_body[0] = message_body[0][:-9]
-                
+
             if message_body[0].lower() == '/echo':
                 response = ' '.join(message_body[1:])
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/news':
                 response = headlines(' '.join(message_body[1:]))
+                payload = {'chat_id': chat_id, 'text': response}
+
+            elif message_body[0].lower() == '/crude':
+                response = json.dumps(js, indent=4)
                 payload = {'chat_id': chat_id, 'text': response}
 
             elif message_body[0].lower() == '/redreg':
