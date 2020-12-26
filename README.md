@@ -1,4 +1,4 @@
-# WAbot
+# WAbot 
 This is a whatsapp and telegram bot (planning to add discord too) that can do the following:
 * Provide live cricket scores
 * Send random trending dankmemes, comedyheaven, copypasta subreddit posts
